@@ -14,17 +14,17 @@ module.exports = {
         let data = req.body;
         let id = req.params.id;
         const result=await provinceModel.update(id,data)
-        if(result.affectedRows>=0) res.json({mess:'Update success !'})
-    },
+        if(result.affectedRows>=0) res.json({mess:true})
+        else res.json({mess:false})    },
     delete:async(req, res) => {
         let id = req.params.id;
         const result=await provinceModel.delete(id)
-        if(result.affectedRows>=0) res.json({mess:'Delete Success !'})
-    },
+        if(result.affectedRows>=0) res.json({mess:true})
+        else res.json({mess:false})    },
     insert:async (req, res) => {
         let data = req.body;
         const result=await provinceModel.insert(data)
-        if(result.affectedRows>=0) res.json({mess:'Insert Success !'})
-    }
+        if(result.affectedRows>=0) res.json({mess:true})
+        else res.json({mess:false})    }
     
 }
