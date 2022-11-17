@@ -9,12 +9,12 @@ module.exports = {
                 reject(error);
                 return;
               }
+              
               resolve(result);
             }
             let sql = 'select * from khu_vuc'
             pool.getConnection(function(err, connection) {
                 if (err) {
-                    connection.release();
                     res.json({ "code": 100, "status": "Error in connection database" });
                     return;
                 }
