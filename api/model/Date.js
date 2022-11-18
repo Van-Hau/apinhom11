@@ -19,6 +19,7 @@ module.exports = {
                     return;
                 }
                 connection.query(sql,handler);
+                connection.release();
             });
         }
     ),
@@ -39,6 +40,7 @@ module.exports = {
                     return;
                 }
                 connection.query(sql,[id],handler);
+                connection.release();
             });
         }
     )
@@ -60,6 +62,7 @@ module.exports = {
                     return;
                 }
                 connection.query(sql,[data,id],handler);
+                connection.release();
             });
         }
     )
@@ -81,6 +84,7 @@ module.exports = {
                     return;
                 }
                 connection.query(sql,[id],handler);
+                connection.release();
             });
         }
     ),
@@ -101,6 +105,7 @@ module.exports = {
                     return;
                 }
                 connection.query(sql,[data],handler);
+                connection.release();
                 
             });
         }
