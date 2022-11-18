@@ -1,30 +1,55 @@
 'use strict'
-let awardModel=require('../model/Award')
+let model=require('../model/Award')
 module.exports = {
     getAll:async (req, res) => {
-        const result=await awardModel.getAll()
-        res.json(result)
+        try {
+            const result=await model.getAll()
+            res.json(result)
+          } catch(err) {
+            res.json({mess:"ERR"})
+          }
+       
     },
     get:async (req,res)=>{
         let id=req.params.id
-        const data=await awardModel.get(id)
-        res.send(JSON.stringify(data))
+        try{
+            const data=await model.get(id)
+            res.send(JSON.stringify(data))
+        } catch(err) {
+            res.json({mess:"ERR"})
+          }
+       
     },
     update:async(req, res) => {
         let data = req.body;
         let id = req.params.id;
-        const result=await awardModel.update(id,data)
-        if(result.affectedRows>=0) res.json({mess:true})
-        else res.json({mess:false})    },
+        try{
+            const result=await model.update(id,data)
+            if(result.affectedRows>0) res.json({mess:true})
+            else  res.json({mess:false}) 
+        } catch(err) {
+            res.json({mess:false})    
+          }
+    },
     delete:async(req, res) => {
         let id = req.params.id;
-        const result=await awardModel.delete(id)
-        if(result.affectedRows>=0) res.json({mess:true})
-        else res.json({mess:false})    },
+        try{
+            const result=await model.delete(id)
+            if(result.affectedRows>0) res.json({mess:true})
+            else  res.json({mess:false}) 
+        } catch(err) {
+            res.json({mess:false})    
+          }
+    },
     insert:async (req, res) => {
         let data = req.body;
-        const result=await awardModel.insert(data)
-        if(result.affectedRows>=0) res.json({mess:true})
-        else res.json({mess:false})    }
+        try{
+            const result=await model.insert(data)
+            if(result.affectedRows>0) res.json({mess:true})
+            else  res.json({mess:false}) 
+        } catch(err) {
+            res.json({mess:false})    
+          }
+    }
     
 }

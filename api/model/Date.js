@@ -101,6 +101,7 @@ module.exports = {
                     return;
                 }
                 connection.query(sql,[data],handler);
+                
             });
         }
     )
