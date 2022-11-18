@@ -6,6 +6,7 @@ var pool = mysql.createPool({
   user: process.env.DB_USER || "root",
   password: process.env.DB_PASS || "EHNksa58813",
   database: process.env.DB_NAME || "datawarehouse",
+  dateStrings:true,
   debug: false
 });
 // const db = mysql.createConnection({

@@ -1,5 +1,5 @@
 'use strict'
-let model=require('../model/Data')
+let model=require('../model/Mart')
 module.exports = {
     getAll:async (req, res) => {
         try {
