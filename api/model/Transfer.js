@@ -1,22 +1,34 @@
 'use strict'
-let dataModel=require('../model/Data')
-let martModel=require('../model/Mart')
+const mysql = require('mysql')
+const pool = require('../database/datawarehouseDb')
+const DataModel=require('../model/Data')
 module.exports = {
-    getAll: async ()=>{
-        var listData= await dataModel.getAll()
-        
-        for (var i = 0; i < listData.length; i++){
-           var data=listData[i]
-           console.log(data)
-          await martModel.insert(data)
+    getAll: async ()=>new Promise(
+        (resolve,reject)=>{
+            const handler = (error, result) => {
+                if (error) {
+                reject(error);
+                return;
+              }
+              resolve(result);
+            }
+            let sql = `insert into data_mart select data.Id,data.Province,data.Area,data.Date,data.Award,data.Number_result,data.Value,data.isDelete,data.Date_expire
+            ,tinh_thanh.name as Province_Fact,khu_vuc.area as Area_Fact,dateOpen.date as Date_Fact,giai.Name_award as Name_award_Fact,dim_expire.date as Date_expire_Fact
+            from data INNER JOIN giai on giai.id=data.Award INNER JOIN
+             khu_vuc on khu_vuc.id=data.Area INNER JOIN date_dim dateOpen on dateOpen.id=data.Date INNER JOIN
+              tinh_thanh on tinh_thanh.id=data.Province INNER JOIN date_dim dim_expire on dim_expire.id=data.Date_expire
+           `
+            pool.getConnection(function(err, connection) {
+                if (err) {
+                    connection.release();
+                    res.json({ "code": 100, "status": "Error in connection database" });
+                    return;
+                }
+                connection.query(sql,handler);
+                connection.release();
+            });
         }
-        var listMart=await martModel.getAll()
-       // console.log('du lieu '+listMart)
-        await martModel.truncate()
-        return listMart
-
-    }   
-    ,
+    ),
     getByProvince: async (province)=>new Promise(
         (resolve,reject)=>{
             const handler = (error, result) => {
@@ -26,7 +38,13 @@ module.exports = {
               }
               resolve(result);
             }
-            let sql = 'select * from data_mart where province=?'
+            let sql = `insert into data_mart select data.Id,data.Province,data.Area,data.Date,data.Award,data.Number_result,data.Value,data.isDelete,data.Date_expire
+            ,tinh_thanh.name as Province_Fact,khu_vuc.area as Area_Fact,dateOpen.date as Date_Fact,giai.Name_award as Name_award_Fact,dim_expire.date as Date_expire_Fact
+            from data INNER JOIN giai on giai.id=data.Award INNER JOIN
+             khu_vuc on khu_vuc.id=data.Area INNER JOIN date_dim dateOpen on dateOpen.id=data.Date INNER JOIN
+              tinh_thanh on tinh_thanh.id=data.Province INNER JOIN date_dim dim_expire on dim_expire.id=data.Date_expire
+              where data.Province=?
+           `
             pool.getConnection(function(err, connection) {
                 if (err) {
                     connection.release();
@@ -48,7 +66,13 @@ module.exports = {
               }
               resolve(result);
             }
-            let sql = 'select * from data_mart where area=?'
+            let sql =`insert into data_mart select data.Id,data.Province,data.Area,data.Date,data.Award,data.Number_result,data.Value,data.isDelete,data.Date_expire
+            ,tinh_thanh.name as Province_Fact,khu_vuc.area as Area_Fact,dateOpen.date as Date_Fact,giai.Name_award as Name_award_Fact,dim_expire.date as Date_expire_Fact
+            from data INNER JOIN giai on giai.id=data.Award INNER JOIN
+             khu_vuc on khu_vuc.id=data.Area INNER JOIN date_dim dateOpen on dateOpen.id=data.Date INNER JOIN
+              tinh_thanh on tinh_thanh.id=data.Province INNER JOIN date_dim dim_expire on dim_expire.id=data.Date_expire
+              where data.Area=?
+           `
             pool.getConnection(function(err, connection) {
                 if (err) {
                     connection.release();
@@ -70,7 +94,12 @@ module.exports = {
               }
               resolve(result);
             }
-            let sql = 'select * from data_mart where Date=?'
+            let sql = `insert into data_mart select data.Id,data.Province,data.Area,data.Date,data.Award,data.Number_result,data.Value,data.isDelete,data.Date_expire
+            ,tinh_thanh.name as Province_Fact,khu_vuc.area as Area_Fact,dateOpen.date as Date_Fact,giai.Name_award as Name_award_Fact,dim_expire.date as Date_expire_Fact
+            from data INNER JOIN giai on giai.id=data.Award INNER JOIN
+             khu_vuc on khu_vuc.id=data.Area INNER JOIN date_dim dateOpen on dateOpen.id=data.Date INNER JOIN
+              tinh_thanh on tinh_thanh.id=data.Province INNER JOIN date_dim dim_expire on dim_expire.id=data.Date_expire
+           `
             pool.getConnection(function(err, connection) {
                 if (err) {
                     connection.release();
@@ -92,7 +121,13 @@ module.exports = {
               }
               resolve(result);
             }
-            let sql = 'select * from data_mart where id=?'
+            let sql =`insert into data_mart select data.Id,data.Province,data.Area,data.Date,data.Award,data.Number_result,data.Value,data.isDelete,data.Date_expire
+            ,tinh_thanh.name as Province_Fact,khu_vuc.area as Area_Fact,dateOpen.date as Date_Fact,giai.Name_award as Name_award_Fact,dim_expire.date as Date_expire_Fact
+            from data INNER JOIN giai on giai.id=data.Award INNER JOIN
+             khu_vuc on khu_vuc.id=data.Area INNER JOIN date_dim dateOpen on dateOpen.id=data.Date INNER JOIN
+              tinh_thanh on tinh_thanh.id=data.Province INNER JOIN date_dim dim_expire on dim_expire.id=data.Date_expire
+              where data.Id=?
+           `
             pool.getConnection(function(err, connection) {
                 if (err) {
                     connection.release();
@@ -104,69 +139,6 @@ module.exports = {
             });
         }
     )
-    ,
-    update:async (id,data)=>new Promise(
-        (resolve,reject)=>{
-            const handler = (error, result) => {
-                if (error) {
-                reject(error);
-                return;
-              }
-              resolve(result);
-            }
-            let sql = 'UPDATE data_mart SET ? WHERE id = ?'
-            pool.getConnection(function(err, connection) {
-                if (err) {
-                    connection.release();
-                    res.json({ "code": 100, "status": "Error in connection database" });
-                    return;
-                }
-                connection.query(sql,[data,id],handler);
-                connection.release();
-            });
-        }
-    )
-   ,
-    delete:async (id)=>new Promise(
-        (resolve,reject)=>{
-            const handler = (error, result) => {
-                if (error) {
-                reject(error);
-                return;
-              }
-              resolve(result);
-            }
-            let sql = 'DELETE FROM data_mart WHERE id = ?'
-            pool.getConnection(function(err, connection) {
-                if (err) {
-                    connection.release();
-                    res.json({ "code": 100, "status": "Error in connection database" });
-                    return;
-                }
-                connection.query(sql,[id],handler);
-                connection.release();
-            });
-        }
-    ),
-    insert:async (data)=>new Promise(
-        (resolve,reject)=>{
-            const handler = (error, result) => {
-                if (error) {
-                reject(error);
-                return;
-              }
-              resolve(result);
-            }
-            let sql = 'INSERT INTO data_mart SET ?'
-            pool.getConnection(function(err, connection) {
-                if (err) {
-                    connection.release();
-                    res.json({ "code": 100, "status": "Error in connection database" });
-                    return;
-                }
-                connection.query(sql,[data],handler);
-                connection.release();
-            });
-        }
-    )
+    
+
 }

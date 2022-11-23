@@ -48,6 +48,12 @@ module.exports = function(app) {
   .get(dataCtrl.getAll);
   app.route('/data/get/:id')
   .get(dataCtrl.get);
+  app.route('/data/getByDate/:date')
+  .get(dataCtrl.getByDate);
+  app.route('/data/getByProvince/:province')
+  .get(dataCtrl.getByProvince);
+  app.route('/data/getByArea/:area')
+  .get(dataCtrl.getByArea);
   app.route('/data/update/:id')
   .put(dataCtrl.update);
   app.route('/data/delete/:id')
