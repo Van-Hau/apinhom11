@@ -4,13 +4,13 @@ const transferModel=require('../model/Transfer')
 module.exports = {
     getAll:async (req, res) => {
         try {
-            const importRow=await transferModel.getAll()
-            const result=await model.getAll()
+             const importRow=await transferModel.getAll()
+             const result=await model.getAll()
             const truncateRow=await model.truncate()
             res.json(result)
           } catch(err) {
-            throw err
-            //res.json({mess:"ERR"})
+           //throw(err)
+            res.json({mess:"ERR"})
           }
        
     },
@@ -22,8 +22,8 @@ module.exports = {
             const truncateRow=await model.truncate()
             res.send(JSON.stringify(data))
         } catch(err) {
-            throw err
-           // res.json({mess:"ERR"})
+           
+           res.json({mess:"ERR"})
           }
        
     }
@@ -36,8 +36,8 @@ module.exports = {
             const truncateRow=await model.truncate()
             res.send(JSON.stringify(data))
         } catch(err) {
-            throw err
-           // res.json({mess:"ERR"})
+           
+            res.json({mess:"ERR"})
           }
        
     }
