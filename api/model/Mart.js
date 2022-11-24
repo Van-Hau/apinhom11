@@ -71,7 +71,7 @@ module.exports = {
         }
     )
     ,
-    getByDate: async (date)=>new Promise(
+    getByDate: async ()=>new Promise(
         (resolve,reject)=>{
             const handler = (error, result) => {
                 if (error) {
@@ -88,7 +88,7 @@ module.exports = {
                     res.json({ "code": 100, "status": "Error in connection database" });
                     return;
                 }
-                connection.query(sql,[date],handler);
+                connection.query(sql,handler);
                 connection.release();
             });
         }

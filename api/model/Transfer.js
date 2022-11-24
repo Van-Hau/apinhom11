@@ -17,6 +17,7 @@ module.exports = {
             from data INNER JOIN giai on giai.id=data.Award INNER JOIN
              khu_vuc on khu_vuc.id=data.Area INNER JOIN date_dim dateOpen on dateOpen.id=data.Date INNER JOIN
               tinh_thanh on tinh_thanh.id=data.Province INNER JOIN date_dim dim_expire on dim_expire.id=data.Date_expire
+               
            `
             pool.getConnection(function(err, connection) {
                 if (err) {
@@ -85,7 +86,7 @@ module.exports = {
         }
     )
     ,
-    getByDate: async (date)=>new Promise(
+    getByDate: async (date,area)=>new Promise(
         (resolve,reject)=>{
             const handler = (error, result) => {
                 if (error) {
@@ -98,7 +99,9 @@ module.exports = {
             ,tinh_thanh.name as Province_Fact,khu_vuc.area as Area_Fact,dateOpen.date as Date_Fact,giai.Name_award as Name_award_Fact,dim_expire.date as Date_expire_Fact
             from data INNER JOIN giai on giai.id=data.Award INNER JOIN
              khu_vuc on khu_vuc.id=data.Area INNER JOIN date_dim dateOpen on dateOpen.id=data.Date INNER JOIN
-              tinh_thanh on tinh_thanh.id=data.Province INNER JOIN date_dim dim_expire on dim_expire.id=data.Date_expire
+              tinh_thanh on tinh_thanh.id=data.Province INNER JOIN date_dim dim_expire on dim_expire.id=data.Date_expire 
+              where dateOpen.date=? and khu_vuc.area=?
+            
            `
             pool.getConnection(function(err, connection) {
                 if (err) {
@@ -106,7 +109,7 @@ module.exports = {
                     res.json({ "code": 100, "status": "Error in connection database" });
                     return;
                 }
-                connection.query(sql,[date],handler);
+                connection.query(sql,[date,area],handler);
                 connection.release();
             });
         }

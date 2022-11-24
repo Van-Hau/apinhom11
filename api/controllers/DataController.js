@@ -57,13 +57,15 @@ module.exports = {
     ,
     getByDate: async (req,res)=>{
         let date=req.params.date
+        let area=req.params.area
         try{
-            const importRow=await transferModel.getByDate(date)
-            const data=await model.getByDate(date)
+            const importRow=await transferModel.getByDate(date,area)
+            const data=await model.getByDate()
             const truncateRow=await model.truncate()
             res.send(JSON.stringify(data))
         } catch(err) {
-            res.json({mess:"ERR"})
+            // res.json({mess:"ERR"})
+            throw(err)
           }
        
     },

@@ -48,7 +48,7 @@ module.exports = function(app) {
   .get(dataCtrl.getAll);
   app.route('/data/get/:id')
   .get(dataCtrl.get);
-  app.route('/data/getByDate/:date')
+  app.route('/data/getByDate/:date/:area')
   .get(dataCtrl.getByDate);
   app.route('/data/getByProvince/:province')
   .get(dataCtrl.getByProvince);
