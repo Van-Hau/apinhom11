@@ -44,6 +44,20 @@ module.exports = {
        
     }
     ,
+    getByProvinceTop1: async (req,res)=>{
+        let province=req.params.province 
+        try{
+            const importRow=await transferModel.getByProvinceTop1(province)
+            const data=await model.getByProvince(province)
+            const truncateRow=await model.truncate()
+            res.send(JSON.stringify(data))
+        } catch(err) {
+           
+            res.json({mess:"ERR"})
+          }
+       
+    }
+    ,
     getByArea: async (req,res)=>{
         let area=req.params.area
         try{
