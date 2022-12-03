@@ -52,8 +52,8 @@ module.exports = function(app) {
   .get(dataCtrl.getByDate);
   app.route('/data/getByProvince/:date/:province')
   .get(dataCtrl.getByProvince);
-  app.route('/data/getByProvinceTop1/:province')
-  .get(dataCtrl.getByProvinceTop1);
+  app.route('/data/getByProvinceTop3/:province')
+  .get(dataCtrl.getByProvinceTop3);
   app.route('/data/getByArea/:area')
   .get(dataCtrl.getByArea);
   app.route('/data/update/:id')
