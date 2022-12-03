@@ -57,6 +57,19 @@ module.exports = {
        
     }
     ,
+    getByProvinceTop3Limit: async (req,res)=>{
+        let date=req.params.date
+        let province=req.params.province 
+        try{
+            const result=await transferModel.getByProvinceTop3Limit(date,province)
+            res.send(JSON.stringify(result))
+        } catch(err) {
+           
+            res.json({mess:"ERR"})
+          }
+       
+    }
+    ,
     getByArea: async (req,res)=>{
         let area=req.params.area
         try{

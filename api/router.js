@@ -54,6 +54,8 @@ module.exports = function(app) {
   .get(dataCtrl.getByProvince);
   app.route('/data/getByProvinceTop3/:province')
   .get(dataCtrl.getByProvinceTop3);
+  app.route('/data/getByProvinceTop3Limit/:date/:province')
+  .get(dataCtrl.getByProvinceTop3Limit);
   app.route('/data/getByArea/:area')
   .get(dataCtrl.getByArea);
   app.route('/data/update/:id')

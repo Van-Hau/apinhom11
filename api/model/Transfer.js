@@ -69,8 +69,8 @@ module.exports = {
             }
             let sql = `SELECT DISTINCT dateOpen.date as Date_Fact from data INNER JOIN giai on giai.id=data.Award INNER JOIN 
             khu_vuc on khu_vuc.id=data.Area INNER JOIN date_dim dateOpen on dateOpen.id=data.Date INNER JOIN 
-            tinh_thanh on tinh_thanh.id=data.Province INNER JOIN date_dim dim_expire on dim_expire.id=data.Date_expire where 
-            tinh_thanh.name=? ORDER BY dateOpen.Date DESC limit 3
+            tinh_thanh on tinh_thanh.id=data.Province INNER JOIN date_dim dim_expire on dim_expire.id=data.Date_expire 
+            where tinh_thanh.name=? ORDER BY dateOpen.Date DESC limit 3
            `
             pool.getConnection(function(err, connection) {
                 if (err) {
@@ -79,6 +79,33 @@ module.exports = {
                     return;
                 }
                 connection.query(sql,[province],handler);
+                connection.release();
+            });
+        }
+    )
+    ,
+    getByProvinceTop3Limit: async (date,province)=>new Promise(
+        (resolve,reject)=>{
+            const handler = (error, result) => {
+                if (error) {
+                reject(error);
+                return;
+              }
+              resolve(result);
+            }
+            let sql = `SELECT DISTINCT dateOpen.date as Date_Fact from data INNER JOIN giai on giai.id=data.Award INNER JOIN 
+            khu_vuc on khu_vuc.id=data.Area INNER JOIN date_dim dateOpen on dateOpen.id=data.Date INNER JOIN 
+            tinh_thanh on tinh_thanh.id=data.Province INNER JOIN date_dim dim_expire on dim_expire.id=data.Date_expire 
+            where dateOpen.date<=? 
+            and tinh_thanh.name=? ORDER BY dateOpen.Date DESC limit 3
+           `
+            pool.getConnection(function(err, connection) {
+                if (err) {
+                    connection.release();
+                    res.json({ "code": 100, "status": "Error in connection database" });
+                    return;
+                }
+                connection.query(sql,[date,province],handler);
                 connection.release();
             });
         }
