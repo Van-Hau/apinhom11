@@ -29,7 +29,9 @@ module.exports = {
     }
     ,
     getByProvince: async (req,res)=>{
+        let date=req.params.date
         let province=req.params.province
+        
         try{
             const importRow=await transferModel.getByProvince(province)
             const data=await model.getByProvince(province)

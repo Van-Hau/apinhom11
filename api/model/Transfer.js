@@ -12,8 +12,8 @@ module.exports = {
               }
               resolve(result);
             }
-            let sql = `insert into data_mart select data.Id,data.Province,data.Area,data.Date,data.Award,data.Number_result,data.Value,data.isDelete,data.Date_expire
-            ,tinh_thanh.name as Province_Fact,khu_vuc.area as Area_Fact,dateOpen.date as Date_Fact,dateOpen.date_of_week,giai.Name_award as Name_award_Fact,dim_expire.date as Date_expire_Fact
+         sql = `insert into data_mart select data.Id,data.Province,data.Area,data.Date,data.Award,data.Number_result,data.Value,data.isDelete,data.Date_expire
+            ,tinh_thanh    let.name as Province_Fact,khu_vuc.area as Area_Fact,dateOpen.date as Date_Fact,dateOpen.date_of_week,giai.Name_award as Name_award_Fact,dim_expire.date as Date_expire_Fact
             from data INNER JOIN giai on giai.id=data.Award INNER JOIN
              khu_vuc on khu_vuc.id=data.Area INNER JOIN date_dim dateOpen on dateOpen.id=data.Date INNER JOIN
               tinh_thanh on tinh_thanh.id=data.Province INNER JOIN date_dim dim_expire on dim_expire.id=data.Date_expire
@@ -30,7 +30,7 @@ module.exports = {
             });
         }
     ),
-    getByProvince: async (province)=>new Promise(
+    getByProvince: async (date,province)=>new Promise(
         (resolve,reject)=>{
             const handler = (error, result) => {
                 if (error) {
@@ -44,7 +44,7 @@ module.exports = {
             from data INNER JOIN giai on giai.id=data.Award INNER JOIN
              khu_vuc on khu_vuc.id=data.Area INNER JOIN date_dim dateOpen on dateOpen.id=data.Date INNER JOIN
               tinh_thanh on tinh_thanh.id=data.Province INNER JOIN date_dim dim_expire on dim_expire.id=data.Date_expire
-              where tinh_thanh.name like ?
+              where dateOpen.date=? and tinh_thanh.name like ?
            `
             pool.getConnection(function(err, connection) {
                 if (err) {
@@ -52,7 +52,7 @@ module.exports = {
                     res.json({ "code": 100, "status": "Error in connection database" });
                     return;
                 }
-                connection.query(sql,[province],handler);
+                connection.query(sql,[date,province],handler);
                 connection.release();
             });
         }
