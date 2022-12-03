@@ -33,7 +33,7 @@ module.exports = {
         let province=req.params.province
         
         try{
-            const importRow=await transferModel.getByProvince(province)
+            const importRow=await transferModel.getByProvince(date,province)
             const data=await model.getByProvince(province)
             const truncateRow=await model.truncate()
             res.send(JSON.stringify(data))
