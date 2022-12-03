@@ -34,7 +34,7 @@ module.exports = {
               }
               resolve(result);
             }
-            let sql = `SELECT * from data_mart
+            let sql = `SELECT * from data_mart ORDER BY Award
            `
             pool.getConnection(function(err, connection) {
                 if (err) {
@@ -57,7 +57,7 @@ module.exports = {
               }
               resolve(result);
             }
-            let sql =`SELECT * from data_mart
+            let sql =`SELECT * from data_mart  ORDER BY Award
            `
             pool.getConnection(function(err, connection) {
                 if (err) {
