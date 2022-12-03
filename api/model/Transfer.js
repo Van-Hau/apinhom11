@@ -44,7 +44,7 @@ module.exports = {
             from data INNER JOIN giai on giai.id=data.Award INNER JOIN
              khu_vuc on khu_vuc.id=data.Area INNER JOIN date_dim dateOpen on dateOpen.id=data.Date INNER JOIN
               tinh_thanh on tinh_thanh.id=data.Province INNER JOIN date_dim dim_expire on dim_expire.id=data.Date_expire
-              where data.Province like ?
+              where tinh_thanh.name like ?
            `
             pool.getConnection(function(err, connection) {
                 if (err) {
