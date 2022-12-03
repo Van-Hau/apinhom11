@@ -50,7 +50,7 @@ module.exports = function(app) {
   .get(dataCtrl.get);
   app.route('/data/getByDate/:date/:area')
   .get(dataCtrl.getByDate);
-  app.route('/data/getByProvince/:province')
+  app.route('/data/getByProvince/:date/:province')
   .get(dataCtrl.getByProvince);
   app.route('/data/getByArea/:area')
   .get(dataCtrl.getByArea);
