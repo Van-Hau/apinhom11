@@ -9,8 +9,8 @@ module.exports = {
             const truncateRow=await model.truncate()
             res.json(result)
           } catch(err) {
-           //throw(err)
-            res.json({mess:"ERR"})
+           throw(err)
+           // res.json({mess:"ERR"})
           }
        
     },
@@ -64,8 +64,8 @@ module.exports = {
             const result=await transferModel.getByProvinceTop3Limit(date,province)
             res.send(JSON.stringify(result))
         } catch(err) {
-           
-            res.json({mess:"ERR"})
+           throw(err)
+           // res.json({mess:"ERR"})
           }
        
     }
